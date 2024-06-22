@@ -2351,8 +2351,8 @@ namespace NBitcoin
 #if !NOSOCKET
 			vFixedSeeds.Clear();
 			vSeeds.Clear();
-			//vSeeds.Add(new DNSSeedData("bitcoin.jonasschnelli.ch", "testnet-seed.bitcoin.jonasschnelli.ch"));
-			//TODO: ???
+			vSeeds.Add(new DNSSeedData("bitcoin.sprovoost.nl", "seed.testnet4.bitcoin.sprovoost.nl"));
+			vSeeds.Add(new DNSSeedData("wiz.biz", "seed.testnet4.wiz.biz"));
 #endif
 
 			base58Prefixes = Network.Main.base58Prefixes.ToArray();
