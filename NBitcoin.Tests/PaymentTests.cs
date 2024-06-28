@@ -56,10 +56,6 @@ namespace NBitcoin.Tests
 			Assert.Equal("bitcoin:mq7se9wy2egettFxPbmn99cK8v5AFq55Lx?amount=0.11&r=https://merchant.com/pay.php?h%3d2a8628fc2fbe", url.ToString());
 			Assert.Equal(url.ToString(), new BitcoinUrlBuilder(url.ToString(), Network.TestNet).ToString());
 
-			url = new BitcoinUrlBuilder("bitcoin:mq7se9wy2egettFxPbmn99cK8v5AFq55Lx?amount=0.11&r=https://merchant.com/pay.php?h%3D2a8628fc2fbe", Network.TestNet4);
-			Assert.Equal("bitcoin:mq7se9wy2egettFxPbmn99cK8v5AFq55Lx?amount=0.11&r=https://merchant.com/pay.php?h%3d2a8628fc2fbe", url.ToString());
-			Assert.Equal(url.ToString(), new BitcoinUrlBuilder(url.ToString(), Network.TestNet4).ToString());
-
 			//Support no address
 			url = new BitcoinUrlBuilder("bitcoin:?r=https://merchant.com/pay.php?h%3D2a8628fc2fbe", Network.Main);
 			Assert.Equal(url.ToString(), new BitcoinUrlBuilder(url.ToString(), Network.Main).ToString());

@@ -59,12 +59,10 @@ namespace NBitcoin
 		{
 			Mainnet = new ChainName("Mainnet");
 			Testnet = new ChainName("Testnet");
-			Testnet4 = new ChainName("Testnet4");
 			Regtest = new ChainName("Regtest");
 		}
 		public static ChainName Mainnet { get; }
 		public static ChainName Testnet { get; }
-		public static ChainName Testnet4 { get; }
 		public static ChainName Regtest { get; }
 
 		private readonly string nameInvariant;
@@ -252,13 +250,6 @@ namespace NBitcoin
 			get
 			{
 				return Network.TestNet.Consensus;
-			}
-		}
-		public static Consensus TestNet4
-		{
-			get
-			{
-				return Network.TestNet4.Consensus;
 			}
 		}
 		public static Consensus RegTest
@@ -1917,7 +1908,7 @@ namespace NBitcoin
 			0x00,0x04,0x20,0xbc,0x27,0xae,0x89,0xc1,0x67,0x73,0x0a,0x08,0x02,0xdf,0xb7,0xcc,0x94,0xc7,0x9f,0xf4,0x72,0x7a,0x9b,0x20,0x0c,0x5c,0x11,0x3d,0x22,0xd6,0x13,0x88,0x66,0x74,0xbf,0x20,0x8d
 		};
 
-		static byte[] pnSeed6_test = new byte[] {
+		public static byte[] pnSeed6_test = new byte[] {
 			0x00,0x03,0x0a,0x99,0xcb,0x26,0x31,0xba,0x48,0x51,0x31,0x39,0x0d,0x47,0x9d,
 			0x00,0x03,0x0a,0x44,0xf4,0xf4,0xf0,0xbf,0xf7,0x7e,0x6d,0xc4,0xe8,0x47,0x9d,
 			0x00,0x03,0x0a,0x6a,0x8b,0xd2,0x78,0x3f,0x7a,0xf8,0x92,0x8f,0x80,0x47,0x9d,
@@ -2029,14 +2020,6 @@ namespace NBitcoin
 			_TestNet.InitTest();
 			_TestNet.Consensus.Freeze();
 
-			_TestNet4 = new Network("TestNet4",
-				Encoders.Hex.DecodeData("0100000000000000000000000000000000000000000000000000000000000000000000004e7b2b9128fe0291db0693af2ae418b767e657cd407e80cb1434221eaea7a07a046f3566ffff001dbb0c78170101000000010000000000000000000000000000000000000000000000000000000000000000ffffffff5504ffff001d01044c4c30332f4d61792f323032342030303030303030303030303030303030303030303165626435386332343439373062336161396437383362623030313031316662653865613865393865303065ffffffff0100f2052a010000002321000000000000000000000000000000000000000000000000000000000000000000ac00000000"),
-				0x283F161C,
-				null,
-				NBitcoin.Bitcoin.Instance);
-			_TestNet4.InitTestNet4();
-			_TestNet4.Consensus.Freeze();
-
 			_RegTest = new Network("RegTest",
 				Encoders.Hex.DecodeData("0100000000000000000000000000000000000000000000000000000000000000000000003ba3edfd7a7b12b27ac72c3e67768f617fc81bc3888a51323a9fb8aa4b1e5e4adae5494dffff7f20020000000101000000010000000000000000000000000000000000000000000000000000000000000000ffffffff4d04ffff001d0104455468652054696d65732030332f4a616e2f32303039204368616e63656c6c6f72206f6e206272696e6b206f66207365636f6e64206261696c6f757420666f722062616e6b73ffffffff0100f2052a01000000434104678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5fac00000000"),
 				0xDAB5BFFA,
@@ -2044,6 +2027,8 @@ namespace NBitcoin
 				NBitcoin.Bitcoin.Instance);
 			_RegTest.InitReg();
 			_RegTest.Consensus.Freeze();
+
+			Bitcoin.Instance.InitTestNet4();
 			Bitcoin.Instance.InitSignet();
 		}
 
@@ -2062,15 +2047,6 @@ namespace NBitcoin
 			get
 			{
 				return _TestNet;
-			}
-		}
-
-		static Network _TestNet4;
-		public static Network TestNet4
-		{
-			get
-			{
-				return _TestNet4;
 			}
 		}
 
@@ -2314,68 +2290,6 @@ namespace NBitcoin
 #endif
 		}
 
-		private void InitTestNet4()
-		{
-			_TestNet4.chainName = ChainName.Testnet4;
-			chainName = ChainName.Testnet4;
-			MaxP2PVersion = BITCOIN_MAX_P2P_VERSION;
-			consensus.SubsidyHalvingInterval = 210000;
-			consensus.MajorityEnforceBlockUpgrade = 51;
-			consensus.MajorityRejectBlockOutdated = 75;
-			consensus.MajorityWindow = 100;
-			consensus.BuriedDeployments[BuriedDeployments.BIP34] = 0;
-			consensus.BuriedDeployments[BuriedDeployments.BIP65] = 0;
-			consensus.BuriedDeployments[BuriedDeployments.BIP66] = 0;
-			consensus.BIP34Hash = new uint256("0x00000000da84f2bafbbc53dee25a72ae507ff4914b867c565be350b0da8bf043");
-			consensus.PowLimit = new Target(new uint256("00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff"));
-			consensus.MinimumChainWork = new uint256("0x000000000823218161efea05e52ef426db982f5da8da1b67f3dbea425384095c"); //TDDO: Update
-			consensus.PowTargetTimespan = TimeSpan.FromSeconds(14 * 24 * 60 * 60); // two weeks
-			consensus.PowTargetSpacing = TimeSpan.FromSeconds(10 * 60);
-			consensus.PowAllowMinDifficultyBlocks = true;
-			consensus.PowNoRetargeting = false;
-			consensus.RuleChangeActivationThreshold = 1512; // 75% for testchains
-			consensus.MinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
-			consensus.SupportTaproot = true;
-			consensus.SupportSegwit = true;
-
-			consensus.CoinType = 1;
-
-			nDefaultPort = 48333;
-			nRPCPort = 48332;
-			//strDataDir = "testnet4";
-
-			// Modify the testnet4 genesis block so the timestamp is valid for a later start.
-			consensus.SetBlock(_GenesisBytes);
-			assert(consensus.HashGenesisBlock == uint256.Parse("0x00000000da84f2bafbbc53dee25a72ae507ff4914b867c565be350b0da8bf043"));
-
-#if !NOSOCKET
-			vFixedSeeds.Clear();
-			vSeeds.Clear();
-			vSeeds.Add(new DNSSeedData("bitcoin.sprovoost.nl", "seed.testnet4.bitcoin.sprovoost.nl"));
-			vSeeds.Add(new DNSSeedData("wiz.biz", "seed.testnet4.wiz.biz"));
-#endif
-
-			base58Prefixes = Network.Main.base58Prefixes.ToArray();
-			base58Prefixes[(int)Base58Type.PUBKEY_ADDRESS] = new byte[] { (111) };
-			base58Prefixes[(int)Base58Type.SCRIPT_ADDRESS] = new byte[] { (196) };
-			base58Prefixes[(int)Base58Type.SECRET_KEY] = new byte[] { (239) };
-			base58Prefixes[(int)Base58Type.EXT_PUBLIC_KEY] = new byte[] { (0x04), (0x35), (0x87), (0xCF) };
-			base58Prefixes[(int)Base58Type.EXT_SECRET_KEY] = new byte[] { (0x04), (0x35), (0x83), (0x94) };
-			base58Prefixes[(int)Base58Type.ASSET_ID] = new byte[] { 115 };
-			base58Prefixes[(int)Base58Type.COLORED_ADDRESS] = new byte[] { 0x13 };
-
-			var encoder = new Bech32Encoder("tb");
-			bech32Encoders[(int)Bech32Type.WITNESS_PUBKEY_ADDRESS] = encoder;
-			bech32Encoders[(int)Bech32Type.WITNESS_SCRIPT_ADDRESS] = encoder;
-			bech32Encoders[(int)Bech32Type.TAPROOT_ADDRESS] = encoder;
-
-#if !NOSOCKET
-			vFixedSeeds.AddRange(LoadNetworkAddresses(pnSeed6_test));
-
-#endif
-		}
-
-
 		private void InitReg()
 		{
 			chainName = ChainName.Regtest;
@@ -2426,7 +2340,7 @@ namespace NBitcoin
 			bech32Encoders[(int)Bech32Type.TAPROOT_ADDRESS] = encoder;
 		}
 #if !NOSOCKET
-		private static IEnumerable<NetworkAddress> LoadNetworkAddresses(byte[] payload)
+		public static IEnumerable<NetworkAddress> LoadNetworkAddresses(byte[] payload)
 		{
 			// Convert the pnSeeds array into usable address objects.
 			Random rand = new Random();
@@ -2838,7 +2752,6 @@ namespace NBitcoin
 		{
 			yield return Main;
 			yield return TestNet;
-			yield return TestNet4;
 			yield return RegTest;
 
 			if (_OtherNetworks.Count != 0)
@@ -2858,7 +2771,7 @@ namespace NBitcoin
 		/// <summary>
 		/// Get network from name
 		/// </summary>
-		/// <param name="name">main,mainnet,testnet,test,testnet3,test4,testnet4,reg,regtest,sig,signet</param>
+		/// <param name="name">main,mainnet,testnet,test,testnet3,test4,reg,regtest,sig,signet</param>
 		/// <returns>The network or null of the name does not match any network</returns>
 		public static Network? GetNetwork(string name)
 		{
@@ -2876,10 +2789,6 @@ namespace NBitcoin
 				case "test":
 				case "testnet3":
 					return Network.TestNet;
-				case "test4":
-				case "testnet4":
-				case "btc-testnet4":
-					return Network.TestNet4;
 				case "reg":
 				case "btc-regtest":
 				case "regtest":
