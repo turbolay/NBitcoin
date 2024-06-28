@@ -38,7 +38,6 @@ namespace NBitcoin.Tests
 					Assert.Equal(network.Mainnet.NetworkSet, bitcoinNetwork.Testnet4.NetworkSet);
 					Assert.Equal(network.Testnet.NetworkSet, bitcoinNetwork.Testnet4.NetworkSet);
 					Assert.Equal(bitcoinNetwork, bitcoinNetwork.Testnet4.NetworkSet);
-					Assert.Equal(ChainName.Testnet4, bitcoinNetwork.Testnet4.ChainName);
 					Assert.Equal(bitcoinNetwork.Testnet4, Network.GetNetwork(network.CryptoCode.ToLowerInvariant() + "-testnet4"));
 					bitcoinNetwork.Testnet4.Parse(new Key().PubKey.GetAddress(ScriptPubKeyType.Legacy, bitcoinNetwork.Testnet4).ToString());
 				}

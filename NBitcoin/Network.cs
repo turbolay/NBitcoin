@@ -59,12 +59,10 @@ namespace NBitcoin
 		{
 			Mainnet = new ChainName("Mainnet");
 			Testnet = new ChainName("Testnet");
-			Testnet4 = new ChainName("Testnet4");
 			Regtest = new ChainName("Regtest");
 		}
 		public static ChainName Mainnet { get; }
 		public static ChainName Testnet { get; }
-		public static ChainName Testnet4 { get; }
 		public static ChainName Regtest { get; }
 
 		private readonly string nameInvariant;
@@ -252,13 +250,6 @@ namespace NBitcoin
 			get
 			{
 				return Network.TestNet.Consensus;
-			}
-		}
-		public static Consensus TestNet4
-		{
-			get
-			{
-				return Network.TestNet4.Consensus;
 			}
 		}
 		public static Consensus RegTest
@@ -2316,8 +2307,8 @@ namespace NBitcoin
 
 		private void InitTestNet4()
 		{
-			_TestNet4.chainName = ChainName.Testnet4;
-			chainName = ChainName.Testnet4;
+			_TestNet4.chainName = Bitcoin.TestNet4Name;
+			chainName = Bitcoin.TestNet4Name;
 			MaxP2PVersion = BITCOIN_MAX_P2P_VERSION;
 			consensus.SubsidyHalvingInterval = 210000;
 			consensus.MajorityEnforceBlockUpgrade = 51;

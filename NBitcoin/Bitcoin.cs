@@ -94,6 +94,7 @@ namespace NBitcoin
 
 		public string CryptoCode => "BTC";
 
+		public static readonly ChainName TestNet4Name = new ChainName("TestNet4");
 		static readonly ChainName SignetName = new ChainName("Signet");
 
 		Network _Signet;
@@ -112,7 +113,7 @@ namespace NBitcoin
 				return Mainnet;
 			if (chainName == ChainName.Testnet)
 				return Testnet;
-			if (chainName == ChainName.Testnet4)
+			if (chainName == TestNet4Name)
 				return Testnet4;
 			if (chainName == ChainName.Regtest)
 				return Regtest;
